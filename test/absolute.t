@@ -1,5 +1,5 @@
 use strict; use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 my $t; use lib ($t = -e 't' ? 't' : 'test');
 use IO::All;
 use IO_All_Test;
@@ -24,6 +24,11 @@ ok(io($t)->absolute->next->is_absolute);
       "$t/absolute.t",
       'relative with base',
    );
+}
+{
+   my $io = io->file(__FILE__)->absolute;
+   my $dir = io->curdir->absolute;
+   is( $io->relative($dir)->os('unix'), 'test/absolute.t', 'relative with base' );
 }
 
 del_output_dir();
